@@ -34,7 +34,7 @@ local control = {
     setCirclesEat = imgui.ImInt(0),
     autoEat = imgui.ImBool(false),
     eat = imgui.ImInt(0),
-    eatSelect = {u8'Картофель-Фри', u8'Сэндвич', u8'Бургер', u8'Крылышки', u8'Пицца', u8'Курица с салатом', u8'Комплексный Обед'},
+    eatSelect = {u8'ГЉГ Г°ГІГ®ГґГҐГ«Гј-Г”Г°ГЁ', u8'Г‘ГЅГ­Г¤ГўГЁГ·', u8'ГЃГіГ°ГЈГҐГ°', u8'ГЉГ°Г»Г«Г»ГёГЄГЁ', u8'ГЏГЁГ¶Г¶Г ', u8'ГЉГіГ°ГЁГ¶Г  Г± Г±Г Г«Г ГІГ®Г¬', u8'ГЉГ®Г¬ГЇГ«ГҐГЄГ±Г­Г»Г© ГЋГЎГҐГ¤'},
     autoOff = imgui.ImBool(false),
     telegramNotf = imgui.ImBool(false),
     reversal = imgui.ImBool(false),
@@ -113,7 +113,7 @@ function main()
 		sampRegisterChatCommand('trupdate', function()
 			update():download()
 		end)
-		sampAddChatMessage('Вышло обновление скрипта ('..thisScript().version..' -> '..lastver..'), введите /trupdate для обновления!', -1)
+		sampAddChatMessage('Г‚Г»ГёГ«Г® Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГҐ Г±ГЄГ°ГЁГЇГІГ  ('..thisScript().version..' -> '..lastver..'), ГўГўГҐГ¤ГЁГІГҐ /trupdate Г¤Г«Гї Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГї!', -1)
 	end
 	
     imgui.Process = false
@@ -236,14 +236,14 @@ function update()
         local response = requests.get(raw)
         if response.status_code == 200 then
             downloadUrlToFile(decodeJson(response.text)['dlurl'], thisScript().path, function (id, status, p1, p2)
-                print('Скачиваю '..decodeJson(response.text)['dlurl']..' в '..thisScript().path)
+                print('Г‘ГЄГ Г·ГЁГўГ Гѕ '..decodeJson(response.text)['dlurl']..' Гў '..thisScript().path)
                 if status == dlstatus.STATUSEX_ENDDOWNLOAD then
-                    sampAddChatMessage('Скрипт обновлен, перезагрузка...', -1)
+                    sampAddChatMessage('Г‘ГЄГ°ГЁГЇГІ Г®ГЎГ­Г®ГўГ«ГҐГ­, ГЇГҐГ°ГҐГ§Г ГЈГ°ГіГ§ГЄГ ...', -1)
                     thisScript():reload()
                 end
             end)
         else
-            sampAddChatMessage('Ошибка, невозможно установить обновление, код: '..response.status_code, -1)
+            sampAddChatMessage('ГЋГёГЁГЎГЄГ , Г­ГҐГўГ®Г§Г¬Г®Г¦Г­Г® ГіГ±ГІГ Г­Г®ГўГЁГІГј Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГҐ, ГЄГ®Г¤: '..response.status_code, -1)
         end
     end
     return f
@@ -260,13 +260,13 @@ function onReceivePacket(id)
         control.start = false
         control.step = 0
         if control.telegramNotf.v then
-            sendTelegramNotification('Потеряно соединение с сервером')
+            sendTelegramNotification('ГЏГ®ГІГҐГ°ГїГ­Г® Г±Г®ГҐГ¤ГЁГ­ГҐГ­ГЁГҐ Г± Г±ГҐГ°ГўГҐГ°Г®Г¬')
         end
     elseif id == 32 then
         control.start = false
         control.step = 0
         if control.telegramNotf.v then
-            sendTelegramNotification('Сервер закрыл соединение')
+            sendTelegramNotification('Г‘ГҐГ°ГўГҐГ° Г§Г ГЄГ°Г»Г« Г±Г®ГҐГ¤ГЁГ­ГҐГ­ГЁГҐ')
         end
     end
 end
@@ -324,23 +324,23 @@ end
 
 zxc.onShowDialog = function(dialogId, style, title, button1, button2, text)
     if control.autoTake.v then
-        if title:find("Регистрация на рейс") and not text:find("освободить") then 
+        if title:find("ГђГҐГЈГЁГ±ГІГ°Г Г¶ГЁГї Г­Г  Г°ГҐГ©Г±") and not text:find("Г®Г±ГўГ®ГЎГ®Г¤ГЁГІГј") then 
             sampSendDialogResponse(dialogId, 1, -1, -1)
             return false
-        elseif title:find("Регистрация на рейс") and text:find("освободить") then 
+        elseif title:find("ГђГҐГЈГЁГ±ГІГ°Г Г¶ГЁГї Г­Г  Г°ГҐГ©Г±") and text:find("Г®Г±ГўГ®ГЎГ®Г¤ГЁГІГј") then 
             sampSendDialogResponse(dialogId, 0, -1, -1)
             return false
-        elseif title:find("Все рейсы заняты") and text:find("живой очереди") then 
+        elseif title:find("Г‚Г±ГҐ Г°ГҐГ©Г±Г» Г§Г Г­ГїГІГ»") and text:find("Г¦ГЁГўГ®Г© Г®Г·ГҐГ°ГҐГ¤ГЁ") then 
             sampSendDialogResponse(dialogId, 0, -1, -1)
             return false
-        elseif title:find("Все рейсы заняты") or text:find("Сейчас все рабочие места на рейсах заняты") then
+        elseif title:find("Г‚Г±ГҐ Г°ГҐГ©Г±Г» Г§Г Г­ГїГІГ»") or text:find("Г‘ГҐГ©Г·Г Г± ГўГ±ГҐ Г°Г ГЎГ®Г·ГЁГҐ Г¬ГҐГ±ГІГ  Г­Г  Г°ГҐГ©Г±Г Гµ Г§Г Г­ГїГІГ»") then
             control.step = 2
             sampSendDialogResponse(dialogId, 0, -1, -1)
             return false
         end
     end
     if control.autoEat.v then
-        if title:find("Выберите еду") then
+        if title:find("Г‚Г»ГЎГҐГ°ГЁГІГҐ ГҐГ¤Гі") then
             if control.eat.v == 0 then
                 sampSendDialogResponse(dialogId, 1, 0, nil)
             elseif control.eat.v == 1 then
@@ -367,7 +367,7 @@ zxc.onShowDialog = function(dialogId, style, title, button1, button2, text)
             control.nop = false
         end
         if control.telegramNotf.v then
-            sendTelegramNotification('Подозрение на админа: '..text)
+            sendTelegramNotification('ГЏГ®Г¤Г®Г§Г°ГҐГ­ГЁГҐ Г­Г  Г Г¤Г¬ГЁГ­Г : '..text)
         end
         if control.reversal.v then
             ffi.C.ShowWindow(hwin, 3)
@@ -377,7 +377,7 @@ zxc.onShowDialog = function(dialogId, style, title, button1, button2, text)
         end
         if control.autoExit.v then
             sampProcessChatInput('/q')
-            sendTelegramNotification('Вышел')
+            sendTelegramNotification('Г‚Г»ГёГҐГ«')
         end
     end
 end
@@ -393,10 +393,10 @@ zxc.onDisplayGameText = function(style, type, text)
 end
 
 zxc.onServerMessage = function(color, text)
-    if text:find('\'Ларец с премией\'.') then
+    if text:find('\'Г‹Г Г°ГҐГ¶ Г± ГЇГ°ГҐГ¬ГЁГҐГ©\'.') then
         stats.casket = stats.casket + 1
     end
-    if text:find('Заработано за рейс: (%d+)') then
+    if text:find('Г‡Г Г°Г ГЎГ®ГІГ Г­Г® Г§Г  Г°ГҐГ©Г±: (%d+)') then
         if control.selectMode.v == 2 then
             lua_thread.create(function()
                 wait(3000)
@@ -410,14 +410,14 @@ zxc.onServerMessage = function(color, text)
         stats.circlesEat = stats.circlesEat + 1
         control.step = 1
     end
-    if text:find('дополнительную зарплату: $(%d+)') then
+    if text:find('Г¤Г®ГЇГ®Г«Г­ГЁГІГҐГ«ГјГ­ГіГѕ Г§Г Г°ГЇГ«Г ГІГі: $(%d+)') then
         stats.profit = stats.profit + 75000
     end
-    if text:find('Вы взяли') or text:find('Вы не голодны!') then
+    if text:find('Г‚Г» ГўГ§ГїГ«ГЁ') or text:find('Г‚Г» Г­ГҐ ГЈГ®Г«Г®Г¤Г­Г»!') then
         control.step = 3
         stats.circlesEat = 0
     end
-    if text:find('администратор') or text:find('ответил вам') or text:find('Администратор (.+) ответил вам%:') or text:find('%(%( Администратор (.+)%[%d+%]%:') or text:find('%(%( администратор .+%[(%d+)%]%:') then
+    if text:find('Г Г¤Г¬ГЁГ­ГЁГ±ГІГ°Г ГІГ®Г°') or text:find('Г®ГІГўГҐГІГЁГ« ГўГ Г¬') or text:find('ГЂГ¤Г¬ГЁГ­ГЁГ±ГІГ°Г ГІГ®Г° (.+) Г®ГІГўГҐГІГЁГ« ГўГ Г¬%:') or text:find('%(%( ГЂГ¤Г¬ГЁГ­ГЁГ±ГІГ°Г ГІГ®Г° (.+)%[%d+%]%:') or text:find('%(%( Г Г¤Г¬ГЁГ­ГЁГ±ГІГ°Г ГІГ®Г° .+%[(%d+)%]%:') then
         if control.autoOff.v then
             control.start = false
             control.step = 0
@@ -425,7 +425,7 @@ zxc.onServerMessage = function(color, text)
             control.nop = false
         end
         if control.telegramNotf.v then
-            sendTelegramNotification('Подозрение на админа: '..text)
+            sendTelegramNotification('ГЏГ®Г¤Г®Г§Г°ГҐГ­ГЁГҐ Г­Г  Г Г¤Г¬ГЁГ­Г : '..text)
         end
         if control.reversal.v then
             ffi.C.ShowWindow(hwin, 3)
@@ -435,7 +435,7 @@ zxc.onServerMessage = function(color, text)
         end
         if control.autoExit.v then
             sampProcessChatInput('/q')
-            sendTelegramNotification('Вышел')
+            sendTelegramNotification('Г‚Г»ГёГҐГ«')
         end
     end
 end
@@ -573,7 +573,7 @@ function imgui.OnDrawFrame()
 
         if menu ~= 'list' then
             imgui.SetCursorPos(imgui.ImVec2(20, 24));
-                if imgui.Button(fa.ICON_FA_ARROW_LEFT .. u8' Назад', imgui.ImVec2(100, 30)) then
+                if imgui.Button(fa.ICON_FA_ARROW_LEFT .. u8' ГЌГ Г§Г Г¤', imgui.ImVec2(100, 30)) then
                     menu = 'list'
                 end
 
@@ -588,27 +588,27 @@ function imgui.OnDrawFrame()
                 imgui.PopFont()
 
             imgui.SetCursorPos(imgui.ImVec2(50, 110));
-                if imgui.Button(fa.ICON_FA_TRAIN .. u8' Бот', imgui.ImVec2(130, 70)) then
+                if imgui.Button(fa.ICON_FA_TRAIN .. u8' ГЃГ®ГІ', imgui.ImVec2(130, 70)) then
                     menu = 'bots'
                 end 
 
             --imgui.SetCursorPos(imgui.ImVec2(200, 110));
-                --if imgui.Button(fa.ICON_FA_PAPER_PLANE .. u8' Уведомление', imgui.ImVec2(130, 70)) then
+                --if imgui.Button(fa.ICON_FA_PAPER_PLANE .. u8' Г“ГўГҐГ¤Г®Г¬Г«ГҐГ­ГЁГҐ', imgui.ImVec2(130, 70)) then
                 --    menu = 'notification'
                 --end
 
             imgui.SetCursorPos(imgui.ImVec2(350, 110));
-                if imgui.Button(fa.ICON_FA_USER_ALT_SLASH .. u8' Анти Админ', imgui.ImVec2(130, 70)) then
+                if imgui.Button(fa.ICON_FA_USER_ALT_SLASH .. u8' ГЂГ­ГІГЁ ГЂГ¤Г¬ГЁГ­', imgui.ImVec2(130, 70)) then
                    menu = 'antiAdmin'
                 end
 
-            imgui.SetCursorPos(imgui.ImVec2(200, 110)); -- Старое значение 50, 200
-                if imgui.Button(fa.ICON_FA_CROW .. u8' Дополнительно', imgui.ImVec2(130, 70)) then
+            imgui.SetCursorPos(imgui.ImVec2(200, 110)); -- Г‘ГІГ Г°Г®ГҐ Г§Г­Г Г·ГҐГ­ГЁГҐ 50, 200
+                if imgui.Button(fa.ICON_FA_CROW .. u8' Г„Г®ГЇГ®Г«Г­ГЁГІГҐГ«ГјГ­Г®', imgui.ImVec2(130, 70)) then
                     menu = 'additionally'
                 end
 
-            imgui.SetCursorPos(imgui.ImVec2(50, 200)); -- Старое значение 200 200
-                if imgui.Button(fa.ICON_FA_CODE .. u8' О скрипте', imgui.ImVec2(430, 35)) then -- Старое значение 130, 70
+            imgui.SetCursorPos(imgui.ImVec2(50, 200)); -- Г‘ГІГ Г°Г®ГҐ Г§Г­Г Г·ГҐГ­ГЁГҐ 200 200
+                if imgui.Button(fa.ICON_FA_CODE .. u8' ГЋ Г±ГЄГ°ГЁГЇГІГҐ', imgui.ImVec2(430, 35)) then -- Г‘ГІГ Г°Г®ГҐ Г§Г­Г Г·ГҐГ­ГЁГҐ 130, 70
                     menu = 'about'
                 end
                        
@@ -617,12 +617,12 @@ function imgui.OnDrawFrame()
         if menu == 'bots' then
             imgui.SetCursorPos(imgui.ImVec2(10.5, 265));
                 if control.start == false then
-                    if imgui.Button(fa.ICON_FA_PLAY .. u8' Включить', imgui.ImVec2(505, 25)) then
+                    if imgui.Button(fa.ICON_FA_PLAY .. u8' Г‚ГЄГ«ГѕГ·ГЁГІГј', imgui.ImVec2(505, 25)) then
                         control.start = true
                         control.step = 1
                     end
                 else
-                    if imgui.Button(fa.ICON_FA_STOP .. u8' Выключить', imgui.ImVec2(505, 25)) then
+                    if imgui.Button(fa.ICON_FA_STOP .. u8' Г‚Г»ГЄГ«ГѕГ·ГЁГІГј', imgui.ImVec2(505, 25)) then
                         control.start = false
                         control.step = 0
                         control.startTp = false
@@ -634,11 +634,11 @@ function imgui.OnDrawFrame()
             imgui.SetCursorPos(imgui.ImVec2(320, 230));
                 imgui.RadioButton('Rage', control.selectMode, 2)
 			imgui.SetCursorPos(imgui.ImVec2(25, 130));
-				imgui.Text(u8'Уровень торможения пока НЕ работает')
+				imgui.Text(u8'Г“Г°Г®ГўГҐГ­Гј ГІГ®Г°Г¬Г®Г¦ГҐГ­ГЁГї ГЇГ®ГЄГ  ГЌГ… Г°Г ГЎГ®ГІГ ГҐГІ')
 		
             if control.selectMode.v == 1 then
                 imgui.SetCursorPos(imgui.ImVec2(25, 100));
-                    if imgui.SliderInt(u8'Уровень торможения', stopLvl, 1, 40) then
+                    if imgui.SliderInt(u8'Г“Г°Г®ГўГҐГ­Гј ГІГ®Г°Г¬Г®Г¦ГҐГ­ГЁГї', stopLvl, 1, 40) then
                         inicfg.save({
                             Telegram =
                             {
@@ -656,7 +656,7 @@ function imgui.OnDrawFrame()
                     end
             elseif control.selectMode.v == 2 then
                 imgui.SetCursorPos(imgui.ImVec2(65, 100));
-                    if imgui.SliderInt(u8'Дистанция', distTp, 1, 10) then
+                    if imgui.SliderInt(u8'Г„ГЁГ±ГІГ Г­Г¶ГЁГї', distTp, 1, 10) then
                         inicfg.save({
                             Telegram =
                             {
@@ -673,7 +673,7 @@ function imgui.OnDrawFrame()
                         token = buffer_token.v
                     end
                 imgui.SetCursorPos(imgui.ImVec2(65, 160));
-                    if imgui.SliderInt(u8'Скорость', speedTp, 15, 50) then
+                    if imgui.SliderInt(u8'Г‘ГЄГ®Г°Г®Г±ГІГј', speedTp, 15, 50) then
                         inicfg.save({
                             Telegram =
                             {
@@ -698,29 +698,29 @@ function imgui.OnDrawFrame()
             imgui.InputText('USER ID', buffer_chatid)
 
             imgui.SetCursorPos(imgui.ImVec2(410, 80));
-                if imgui.Button(u8'Тест', imgui.ImVec2(108, 50)) then
-                    sendTelegramNotification('Я гей, а ой. Все ворк!')
+                if imgui.Button(u8'Г’ГҐГ±ГІ', imgui.ImVec2(108, 50)) then
+                    sendTelegramNotification('Гџ ГЈГҐГ©, Г  Г®Г©. Г‚Г±ГҐ ГўГ®Г°ГЄ!')
                 end
 
             imgui.SetCursorPos(imgui.ImVec2(10.5, 145));
-                imgui.Text(u8'!send - отправить сообщение в чат')
+                imgui.Text(u8'!send - Г®ГІГЇГ°Г ГўГЁГІГј Г±Г®Г®ГЎГ№ГҐГ­ГЁГҐ Гў Г·Г ГІ')
             imgui.SetCursorPos(imgui.ImVec2(255, 145));
-                imgui.Text(u8'!stats - статистика работы')
+                imgui.Text(u8'!stats - Г±ГІГ ГІГЁГ±ГІГЁГЄГ  Г°Г ГЎГ®ГІГ»')
             imgui.SetCursorPos(imgui.ImVec2(10.5, 170));
-                imgui.Text(u8'!start - включить бота')
+                imgui.Text(u8'!start - ГўГЄГ«ГѕГ·ГЁГІГј ГЎГ®ГІГ ')
             imgui.SetCursorPos(imgui.ImVec2(255, 170));
-                imgui.Text(u8'!exit - выйти из игры')
+                imgui.Text(u8'!exit - ГўГ»Г©ГІГЁ ГЁГ§ ГЁГЈГ°Г»')
             imgui.SetCursorPos(imgui.ImVec2(10.5, 195));
-                imgui.Text(u8'!stop - выключить бота')
+                imgui.Text(u8'!stop - ГўГ»ГЄГ«ГѕГ·ГЁГІГј ГЎГ®ГІГ ')
             imgui.SetCursorPos(imgui.ImVec2(255, 195));
-                imgui.Text(u8'!close - закрыть диалог чек бота(админа)')
+                imgui.Text(u8'!close - Г§Г ГЄГ°Г»ГІГј Г¤ГЁГ Г«Г®ГЈ Г·ГҐГЄ ГЎГ®ГІГ (Г Г¤Г¬ГЁГ­Г )')
             imgui.SetCursorPos(imgui.ImVec2(10.5, 220));
-                imgui.Text(u8'!crash - крашнуть игру')
+                imgui.Text(u8'!crash - ГЄГ°Г ГёГ­ГіГІГј ГЁГЈГ°Гі')
 
             imgui.SetCursorPos(imgui.ImVec2(10.5, 265));
-                if imgui.Button(u8'Сохранить', imgui.ImVec2(505, 25)) then
+                if imgui.Button(u8'Г‘Г®ГµГ°Г Г­ГЁГІГј', imgui.ImVec2(505, 25)) then
                     if notf then
-                        notf.addNotification("TrainBot\n\nНастройки телеграмма сохранены!", 5, 10)
+                        notf.addNotification("TrainBot\n\nГЌГ Г±ГІГ°Г®Г©ГЄГЁ ГІГҐГ«ГҐГЈГ°Г Г¬Г¬Г  Г±Г®ГµГ°Г Г­ГҐГ­Г»!", 5, 10)
                     end
                     inicfg.save({
                         Telegram =
@@ -741,31 +741,31 @@ function imgui.OnDrawFrame()
 
         if menu == 'antiAdmin' then
             imgui.SetCursorPos(imgui.ImVec2(10.8, 80));
-                imgui.Checkbox(u8'Выключение бота', control.autoOff)
+                imgui.Checkbox(u8'Г‚Г»ГЄГ«ГѕГ·ГҐГ­ГЁГҐ ГЎГ®ГІГ ', control.autoOff)
             -- imgui.SetCursorPos(imgui.ImVec2(200, 80));
-               -- imgui.Checkbox(u8'Разворот игры', control.reversal)
+               -- imgui.Checkbox(u8'ГђГ Г§ГўГ®Г°Г®ГІ ГЁГЈГ°Г»', control.reversal)
             -- imgui.SetCursorPos(imgui.ImVec2(380, 80));    
-               -- imgui.Checkbox(u8'Мигание окном', control.blinking)
+               -- imgui.Checkbox(u8'ГЊГЁГЈГ Г­ГЁГҐ Г®ГЄГ­Г®Г¬', control.blinking)
             -- imgui.SetCursorPos(imgui.ImVec2(10.8, 110));
-               -- imgui.Checkbox(u8'Уведомление в TG', control.telegramNotf)
-            imgui.SetCursorPos(imgui.ImVec2(10.8, 110)); -- Старое значение 200, 110
-                imgui.Checkbox(u8'Выход из игры', control.autoExit)
+               -- imgui.Checkbox(u8'Г“ГўГҐГ¤Г®Г¬Г«ГҐГ­ГЁГҐ Гў TG', control.telegramNotf)
+            imgui.SetCursorPos(imgui.ImVec2(10.8, 110)); -- Г‘ГІГ Г°Г®ГҐ Г§Г­Г Г·ГҐГ­ГЁГҐ 200, 110
+                imgui.Checkbox(u8'Г‚Г»ГµГ®Г¤ ГЁГ§ ГЁГЈГ°Г»', control.autoExit)
         end 
 
         if menu == 'additionally' then
             imgui.SetCursorPos(imgui.ImVec2(10.8, 80));
-                if imgui.Checkbox(u8'Статистика', control.stats) then
+                if imgui.Checkbox(u8'Г‘ГІГ ГІГЁГ±ГІГЁГЄГ ', control.stats) then
                     window_stats.v = not window_stats.v
                 end
             imgui.SetCursorPos(imgui.ImVec2(200, 80));    
-                imgui.Checkbox(u8'Авто взятие рейса', control.autoTake)
+                imgui.Checkbox(u8'ГЂГўГІГ® ГўГ§ГїГІГЁГҐ Г°ГҐГ©Г±Г ', control.autoTake)
             imgui.SetCursorPos(imgui.ImVec2(380, 80));    
-                imgui.RadioButton(u8'Первая стойка', control.selectMarker, 1) 
+                imgui.RadioButton(u8'ГЏГҐГ°ГўГ Гї Г±ГІГ®Г©ГЄГ ', control.selectMarker, 1) 
             imgui.SetCursorPos(imgui.ImVec2(380, 110));
-                imgui.RadioButton(u8'Вторая стойка', control.selectMarker, 2)
+                imgui.RadioButton(u8'Г‚ГІГ®Г°Г Гї Г±ГІГ®Г©ГЄГ ', control.selectMarker, 2)
 
             imgui.SetCursorPos(imgui.ImVec2(10.8, 110));  
-                imgui.Checkbox(u8'Авто еда', control.autoEat)
+                imgui.Checkbox(u8'ГЂГўГІГ® ГҐГ¤Г ', control.autoEat)
 
             imgui.SetCursorPos(imgui.ImVec2(200, 110));
                 imgui.PushItemWidth(90)
@@ -774,21 +774,21 @@ function imgui.OnDrawFrame()
 
             imgui.SetCursorPos(imgui.ImVec2(10.8, 140));
                 imgui.PushItemWidth(120)
-                    imgui.Combo(u8'Что кушать', control.eat, control.eatSelect, #control.eatSelect)
+                    imgui.Combo(u8'Г—ГІГ® ГЄГіГёГ ГІГј', control.eat, control.eatSelect, #control.eatSelect)
                 imgui.PushItemWidth(0)
         end
 
         if menu == 'about' then
             imgui.PushFont(ik)
                 imgui.SetCursorPos(imgui.ImVec2(200, 80));
-                    imgui.Text(u8'Автор: ')
+                    imgui.Text(u8'ГЂГўГІГ®Г°: ')
                 imgui.SetCursorPos(imgui.ImVec2(270, 80));
                     if imgui.Link(u8'illum1na') then
                         os.execute(('explorer.exe "%s"'):format("https://vk.com/id55904399"))
                     end
 
                 imgui.SetCursorPos(imgui.ImVec2(150, 110));
-                    imgui.Text(u8'Версия скрипта: 1.4')
+                    imgui.Text(u8'Г‚ГҐГ°Г±ГЁГї Г±ГЄГ°ГЁГЇГІГ : 1.4')
             imgui.PopFont()
         end
 
@@ -804,28 +804,28 @@ function imgui.OnDrawFrame()
         if isCharInAnyTrain(PLAYER_PED) then
             local x, y, z = getCharCoordinates(PLAYER_PED)
             imgui.SetCursorPos(imgui.ImVec2(7, 7));
-            imgui.Text(u8'Дистанция: '..math.floor(getDistanceBetweenCoords2d(x, y, blipX, blipY)))
+            imgui.Text(u8'Г„ГЁГ±ГІГ Г­Г¶ГЁГї: '..math.floor(getDistanceBetweenCoords2d(x, y, blipX, blipY)))
 
             local train = storeCarCharIsInNoSave(PLAYER_PED)
             local speed = getCarSpeed(train) * 3.67
             imgui.SetCursorPos(imgui.ImVec2(7, 23));
-            imgui.Text(u8'Скорость: '..math.floor(speed))
+            imgui.Text(u8'Г‘ГЄГ®Г°Г®Г±ГІГј: '..math.floor(speed))
         end
 
         imgui.SetCursorPos(imgui.ImVec2(7, 45));
-        imgui.Text(u8'Всего рейсов сделано: '..stats.circles)
+        imgui.Text(u8'Г‚Г±ГҐГЈГ® Г°ГҐГ©Г±Г®Гў Г±Г¤ГҐГ«Г Г­Г®: '..stats.circles)
 
         imgui.SetCursorPos(imgui.ImVec2(7, 60));
-        imgui.Text(u8'Общий заработок: '..stats.profit..'$')
+        imgui.Text(u8'ГЋГЎГ№ГЁГ© Г§Г Г°Г ГЎГ®ГІГ®ГЄ: '..stats.profit..'$')
 
         imgui.SetCursorPos(imgui.ImVec2(7, 75));
-        imgui.Text(u8'Ларцов: '..stats.casket)
+        imgui.Text(u8'Г‹Г Г°Г¶Г®Гў: '..stats.casket)
 
         imgui.SetCursorPos(imgui.ImVec2(7, 100));
-        imgui.Text(u8'Время: '..os.date('%X'))
+        imgui.Text(u8'Г‚Г°ГҐГ¬Гї: '..os.date('%X'))
 
         imgui.SetCursorPos(imgui.ImVec2(7, 115));
-        imgui.Text(u8'Бот работает: '..get_timer(stats.jobTime))
+        imgui.Text(u8'ГЃГ®ГІ Г°Г ГЎГ®ГІГ ГҐГІ: '..get_timer(stats.jobTime))
 
         imgui.End()
     end
@@ -1006,28 +1006,28 @@ function processing_telegram_messages(result)
                         if message_from_user then
                             local text = u8:decode(message_from_user) .. ' '
                             if text:match('^!stats') then
-                                sendTelegramNotification('Заработок: '..stats.profit..'\nРейсов: '..stats.circles..'\nЛарцов: '..stats.casket..'\nВремя работы: '..get_timer(stats.jobTime))
+                                sendTelegramNotification('Г‡Г Г°Г ГЎГ®ГІГ®ГЄ: '..stats.profit..'\nГђГҐГ©Г±Г®Гў: '..stats.circles..'\nГ‹Г Г°Г¶Г®Гў: '..stats.casket..'\nГ‚Г°ГҐГ¬Гї Г°Г ГЎГ®ГІГ»: '..get_timer(stats.jobTime))
                             elseif text:match('^!send') then
                                 local sendMessageTelegram = text:match('^!send (.+)')
                                 sampSendChat(sendMessageTelegram)
-                                sendTelegramNotification('Отправил!')
+                                sendTelegramNotification('ГЋГІГЇГ°Г ГўГЁГ«!')
                             elseif text:match('^!exit') then 
                                 sampProcessChatInput('/q')
-                                sendTelegramNotification('Вышел!')
+                                sendTelegramNotification('Г‚Г»ГёГҐГ«!')
                             elseif text:match('^!start') then 
                                 control.start = true
-                                sendTelegramNotification('Бот успешно включен!')
+                                sendTelegramNotification('ГЃГ®ГІ ГіГ±ГЇГҐГёГ­Г® ГўГЄГ«ГѕГ·ГҐГ­!')
                             elseif text:match('^!stop') then 
                                 control.start = false
-                                sendTelegramNotification('Бот успешно выключен!')
+                                sendTelegramNotification('ГЃГ®ГІ ГіГ±ГЇГҐГёГ­Г® ГўГ»ГЄГ«ГѕГ·ГҐГ­!')
                             elseif text:match('^!close') then 
                                 sampSendDialogResponse(15039, 1, 0, nil)
-                                sendTelegramNotification('Диалог закрыт!')
+                                sendTelegramNotification('Г„ГЁГ Г«Г®ГЈ Г§Г ГЄГ°Г»ГІ!')
                             elseif text:match('^!crash') then 
                                 crash.v = not crash.v
-                                sendTelegramNotification('Крашнул!')
+                                sendTelegramNotification('ГЉГ°Г ГёГ­ГіГ«!')
                             else
-                                sendTelegramNotification('Неизвестная команда!')
+                                sendTelegramNotification('ГЌГҐГЁГ§ГўГҐГ±ГІГ­Г Гї ГЄГ®Г¬Г Г­Г¤Г !')
                             end
                         end
                     end
@@ -1069,10 +1069,10 @@ end
 
 function MovePlayer(move_code, isSprint)
     setGameKeyState(1, move_code)
-    --[[255 - обычный бег назад
-       -255 - обычный бег вперед
-      65535 - идти шагом вперед
-    -65535 - идти шагом назад]]
+    --[[255 - Г®ГЎГ»Г·Г­Г»Г© ГЎГҐГЈ Г­Г Г§Г Г¤
+       -255 - Г®ГЎГ»Г·Г­Г»Г© ГЎГҐГЈ ГўГЇГҐГ°ГҐГ¤
+      65535 - ГЁГ¤ГІГЁ ГёГ ГЈГ®Г¬ ГўГЇГҐГ°ГҐГ¤
+    -65535 - ГЁГ¤ГІГЁ ГёГ ГЈГ®Г¬ Г­Г Г§Г Г¤]]
     if isSprint then setGameKeyState(16, 255) end
 end
 
